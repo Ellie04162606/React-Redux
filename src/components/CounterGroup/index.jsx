@@ -1,28 +1,20 @@
 import React, { Component } from "react";
 import Counter from "../Counter";
+
 class CounterGroup extends Component {
   constructor(props) {
     super(props);
-    this.state = { size: 0, totalNumber: 0 };
+    this.state = { size: 0 };
   }
 
   handleResize = (event) => {
     this.setState({
       size: event.target.value ? parseInt(event.target.value) : 0,
-      totalNumber: 0,
     });
   };
 
-  handleIncrease = () => {
-    this.setState((preState) => ({
-      totalNumber: preState.totalNumber + 1,
-    }));
-  };
-
-  handleDecrease = () => {
-    this.setState((preState) => ({
-      totalNumber: preState.totalNumber - 1,
-    }));
+  unmountCounter = (value) => {
+      this.props.store.dispatch({ type: "unmountCounter", count: parseInt(value) });
   };
 
   render() {
@@ -36,12 +28,13 @@ class CounterGroup extends Component {
           </label>
         </div>
         <div>
-          <label>GroupNumber : {this.state.totalNumber}</label>
+          <label>GroupNumber : {this.props.store.getState()}</label>
         </div>
         {initArray.map((key) => (
           <Counter
-            onIncrease={this.handleIncrease}
-            onDecrease={this.handleDecrease}
+            onIncrease={() => this.props.store.dispatch({ type: "increase" })}
+            onDecrease={() => this.props.store.dispatch({ type: "decrease" })}
+            unmountCounter={this.unmountCounter}
             groupSize={this.state.size}
             key={key}
           />

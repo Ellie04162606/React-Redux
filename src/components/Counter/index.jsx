@@ -30,14 +30,8 @@ class Counter extends React.Component {
     this.props.onIncrease();
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.groupSize !== prevState.groupSize) {
-      return {
-        value: 0,
-        groupSize: nextProps.groupSize,
-      };
-    }
-    return null;
+  componentWillUnmount() {
+    this.props.unmountCounter(this.state.value);
   }
 }
 
