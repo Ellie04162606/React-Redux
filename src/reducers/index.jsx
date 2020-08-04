@@ -1,12 +1,9 @@
-export default (state = 0 , action) => {
-  switch (action.type) {
-    case "increase":
-      return state + 1 ;
-    case "decrease":
-      return state - 1 ;
-    case "unmountCounter":
-      return state - action.count ;
-    default:
-      return state;
-  }
-};
+import { creactReducer } from "@reduxjs/toolkit";
+
+const state  = 0;
+
+export default creactReducer(state, {
+  "increase": (state, action) => ({ state: state + 1 }),
+  "decrease": (state, action) => ({ state: state - 1 }),
+  "unmountCounter": (state, action) => ({ state: state - action.count }),
+});
