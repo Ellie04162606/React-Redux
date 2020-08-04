@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Counter from "../Counter";
 
 class CounterGroup extends Component {
@@ -13,10 +14,6 @@ class CounterGroup extends Component {
     });
   };
 
-  unmountCounter = (value) => {
-      this.props.store.dispatch({ type: "unmountCounter", count: parseInt(value) });
-  };
-
   render() {
     const initArray = [...Array(this.state.size).keys()];
     return (
@@ -28,13 +25,13 @@ class CounterGroup extends Component {
           </label>
         </div>
         <div>
-          <label>GroupNumber : {this.props.store.getState()}</label>
+          <label>GroupNumber : {this.props.sum}</label>
         </div>
         {initArray.map((key) => (
           <Counter
-            onIncrease={() => this.props.store.dispatch({ type: "increase" })}
-            onDecrease={() => this.props.store.dispatch({ type: "decrease" })}
-            unmountCounter={this.unmountCounter}
+            onIncrease={this.props.onInrease}
+            onDecrease={this.props.onDecrease}
+            unmountCounter={this.props.unmountCounter}
             groupSize={this.state.size}
             key={key}
           />
@@ -44,4 +41,15 @@ class CounterGroup extends Component {
   }
 }
 
-export default CounterGroup;
+const mapStateToProps = (state) => {
+  return { sum: state };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onInrease: () => dispatch({ type: "increase" }),
+  onDecrease: () => dispatch({ type: "decrease" }),
+  unmountCounter: (value) =>
+    dispatch({ type: "unmountCounter", count: parseInt(value) }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CounterGroup);

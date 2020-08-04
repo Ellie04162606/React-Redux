@@ -4,11 +4,11 @@ import './App.css';
 import CounterGroup from './components/CounterGroup';
 
 
-function App(props) {
+function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <CounterGroup store={props.store}/>
+        <CounterGroup />
       </header>
     </div>
   );
